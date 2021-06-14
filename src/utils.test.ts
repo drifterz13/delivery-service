@@ -1,5 +1,5 @@
 import { data } from './data'
-import { getCostFromRoutes } from './utils'
+import { getCostFromRoutes, getTotalPossibleRoutes } from './utils'
 
 describe('getCostFromRoutes', () => {
   it('returns 4, given `A-B-E` routes', () => {
@@ -19,4 +19,14 @@ describe('getCostFromRoutes', () => {
       getCostFromRoutes(data.links, 'A-D-F')
     }).toThrow('No such route')
   })
+})
+
+describe('getTotalPossibleRoutes', () => {
+  fit('returns 4, given `E-D` routes', () => {
+    expect(getTotalPossibleRoutes(data.links, 'E-D', { limitStop: 4 })).toBe(4)
+  })
+
+  //   fit('returns 5, given `E-E` routes', () => {
+  //     expect(getTotalPossibleRoutes(data.links, 'E-E', limitStop)).toBe(5)
+  //   })
 })

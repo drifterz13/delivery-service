@@ -19,7 +19,7 @@ function getGraphFromLinks(links: Link[]) {
  *
  * @param routes string represent route ex. `A-B-E`
  */
-export function getCostFromRoutes(links: Link[], routes: string) {
+export function getCostFromRoutes(links: Link[], routes: string): number {
   const graph = getGraphFromLinks(links)
 
   return getCost(graph, routes.split('-'))
@@ -57,4 +57,60 @@ function getCost(graph: GraphData, routes: string[]) {
   }
 
   return cost
+}
+
+/**
+ *
+ * @param routes string represent (two nodes) route ex. `E-D`
+ */
+export function getTotalPossibleRoutes(
+  links: Link[],
+  routes: string,
+  options: {
+    limitStop?: number
+    totalStop?: number
+  } = {}
+): number {
+  const graph = getGraphFromLinks(links)
+
+  const [fromNode, toNode] = routes.split('-') as [string, string]
+
+  return calcRoutes(graph, fromNode, toNode, options)
+}
+
+function calcRoutes(
+  graph: GraphData,
+  fromNode: string,
+  toNode: string,
+  options: {
+    limitStop?: number
+    totalStop?: number
+  } = {}
+) {
+  const { limitStop = 0, totalStop = 0 } = options
+
+  let sum = 0
+  const destinations = graph.get(fromNode)
+
+  if (!destinations || destinations.length === 0) {
+    return 0
+  }
+
+  if (totalStop >= limitStop) {
+    return 0
+  }
+
+  for (const destination of destinations) {
+    if (destination.target === toNode) {
+      sum += 1
+      continue
+    }
+
+    sum += calcRoutes(graph, destination.target, toNode, {
+      totalStop: totalStop + 1,
+      limitStop,
+    })
+  }
+
+  return sum
 }
