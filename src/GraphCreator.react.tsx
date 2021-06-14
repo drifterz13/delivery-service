@@ -38,7 +38,7 @@ export default function GraphCreator(props: Props) {
         Target node:
         <input
           type="text"
-          placeholder="Enter source node"
+          placeholder="Enter target node"
           value={targetNode}
           onChange={(e) => setTargetNode(e.target.value)}
         />
