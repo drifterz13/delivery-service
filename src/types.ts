@@ -19,3 +19,5 @@ export type Link = {
    */
   value: number
 }
+
+export type GraphData = Map<GraphNode['id'], Omit<Link, 'source'>[]>

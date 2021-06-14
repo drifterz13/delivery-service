@@ -1,7 +1,7 @@
-import type { Link } from './types'
+import type { GraphData, Link } from './types'
 
 function getGraphFromLinks(links: Link[]) {
-  const graph = new Map<string, { target: string; value: number }[]>()
+  const graph: GraphData = new Map()
 
   for (const { source, target, value } of links) {
     if (!graph.get(source)) {
@@ -25,10 +25,7 @@ export function getCostFromRoutes(links: Link[], routes: string) {
   return getCost(graph, routes.split('-'))
 }
 
-function getCost(
-  graph: Map<string, { target: string; value: number }[]>,
-  routes: string[]
-) {
+function getCost(graph: GraphData, routes: string[]) {
   let cost = 0
   const currentRoute = routes.shift()
 
