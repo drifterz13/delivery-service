@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 type Props = {
   createGraph: (source: string, target: string, weight: number) => void
 }
 
 export default function GraphCreator(props: Props) {
+  const sourceInputRef = useRef<HTMLInputElement>()
+
+  useEffect(() => {
+    sourceInputRef.current.focus()
+  }, [])
+
   const [linkWeight, setLinkWeigth] = useState(0)
   const [sourceNode, setSourceNode] = useState('')
   const [targetNode, setTargetNode] = useState('')
@@ -20,6 +26,7 @@ export default function GraphCreator(props: Props) {
       <label>
         Source node:
         <input
+          ref={sourceInputRef}
           type="text"
           placeholder="Enter source node"
           value={sourceNode}
@@ -54,6 +61,7 @@ export default function GraphCreator(props: Props) {
         onClick={() => {
           props.createGraph(sourceNode, targetNode, linkWeight)
           reset()
+          sourceInputRef.current.focus()
         }}
       >
         Create
