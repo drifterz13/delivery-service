@@ -27,10 +27,10 @@ export function getCostFromRoutes(links: Link[], routes: string) {
 
 function getCost(graph: GraphData, routes: string[]) {
   let cost = 0
-  const currentRoute = routes.shift()
 
   while (routes.length > 0) {
     let routeMatched = false
+    const currentRoute = routes.shift()
     const nextRoute = routes.shift()
     const destiantions = graph.get(currentRoute)
 
@@ -41,12 +41,13 @@ function getCost(graph: GraphData, routes: string[]) {
     for (const destination of destiantions) {
       if (destination.target === nextRoute) {
         routeMatched = true
+        cost += destination.value
 
         if (routes.length === 0) {
-          return cost + destination.value
+          return cost
         }
 
-        return destination.value + getCost(graph, [nextRoute, ...routes])
+        routes.unshift(nextRoute)
       }
     }
 
