@@ -72,7 +72,6 @@ export function getTotalPossibleRoutes(
   } = {}
 ): number {
   const graph = getGraphFromLinks(links)
-
   const [fromNode, toNode] = routes.split('-') as [string, string]
 
   return calcRoutes(graph, fromNode, toNode, options)
@@ -113,4 +112,70 @@ function calcRoutes(
   }
 
   return sum
+}
+
+export function getTotalNonDuplicatedRoutes(links: Link[], routes: string) {
+  const graph = getGraphFromLinks(links)
+  const [fromNode, toNode] = routes.split('-') as [string, string]
+
+  return calcNonDuplicatedRoutes(graph, fromNode, toNode)
+}
+
+function calcNonDuplicatedRoutes(
+  graph: GraphData,
+  fromNode: string,
+  toNode: string,
+  path: string = fromNode,
+  visitedPaths: Set<string> = new Set() // represent visited path ex. `EABE`
+): number {
+  const destinations = graph.get(fromNode)
+
+  if (!destinations || destinations.length === 0) {
+    return 0
+  }
+
+  console.log(`-------${fromNode} -> ${toNode}-------`, visitedPaths, path)
+  console.log('DESTINATIONS', destinations)
+
+  for (const destination of destinations) {
+    if (destination.value === 0) {
+      continue
+    }
+
+    path += destination.target
+
+    if (visitedPaths.has(path)) {
+      console.log('-------DUPLICATED PATH-------')
+      continue
+    }
+
+    if (destination.target === toNode) {
+      console.log(
+        '-------FOUND PATH-------',
+        fromNode,
+        destination.target,
+        path
+      )
+      visitedPaths.add(path)
+      path = fromNode
+      continue
+    }
+
+    console.log(
+      '-------WILL KEEP FINDING-------',
+      fromNode,
+      destination.target,
+      path
+    )
+
+    calcNonDuplicatedRoutes(
+      graph,
+      destination.target,
+      toNode,
+      path,
+      visitedPaths
+    )
+  }
+
+  return visitedPaths.size
 }
