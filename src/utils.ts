@@ -66,28 +66,21 @@ function getCost(graph: GraphData, routes: string[]) {
 export function getTotalPossibleRoutes(
   links: Link[],
   routes: string,
-  options: {
-    limitStop?: number
-    totalStop?: number
-  } = {}
+  limitStop?: number
 ): number {
   const graph = getGraphFromLinks(links)
   const [fromNode, toNode] = routes.split('-') as [string, string]
 
-  return calcRoutes(graph, fromNode, toNode, options)
+  return calcRoutes(graph, fromNode, toNode, limitStop)
 }
 
 function calcRoutes(
   graph: GraphData,
   fromNode: string,
   toNode: string,
-  options: {
-    limitStop?: number
-    totalStop?: number
-  } = {}
+  limitStop: number = 4,
+  totalStop: number = 0
 ) {
-  const { limitStop = 0, totalStop = 0 } = options
-
   let sum = 0
   const destinations = graph.get(fromNode)
 
@@ -105,10 +98,13 @@ function calcRoutes(
       continue
     }
 
-    sum += calcRoutes(graph, destination.target, toNode, {
-      totalStop: totalStop + 1,
+    sum += calcRoutes(
+      graph,
+      destination.target,
+      toNode,
       limitStop,
-    })
+      totalStop + 1
+    )
   }
 
   return sum
@@ -126,7 +122,7 @@ function calcNonDuplicatedRoutes(
   fromNode: string,
   toNode: string,
   path: string = fromNode,
-  visitedPaths: Set<string> = new Set() // represent visited path ex. `EABE`
+  visitedPaths: Set<string> = new Set() // represent set of visited path ex. `EABE`
 ): number {
   const destinations = graph.get(fromNode)
 
@@ -144,10 +140,7 @@ function calcNonDuplicatedRoutes(
     }
 
     if (destination.target === toNode) {
-      const pathToAdd = path + destination.target
-
-      visitedPaths.add(pathToAdd)
-
+      visitedPaths.add(path + destination.target)
       continue
     }
 
@@ -160,6 +153,6 @@ function calcNonDuplicatedRoutes(
     )
   }
 
-  console.log('Visited paths', visitedPaths)
+  console.log('visited paths', visitedPaths)
   return visitedPaths.size
 }

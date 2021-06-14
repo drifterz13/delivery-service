@@ -27,7 +27,8 @@ describe('getCostFromRoutes', () => {
 
 describe('getTotalPossibleRoutes', () => {
   it('returns 4, given `E-D` routes', () => {
-    expect(getTotalPossibleRoutes(data.links, 'E-D', { limitStop: 4 })).toBe(4)
+    const limitStop = 4
+    expect(getTotalPossibleRoutes(data.links, 'E-D', limitStop)).toBe(4)
   })
 
   it('returns 5, given `E-E` routes', () => {
