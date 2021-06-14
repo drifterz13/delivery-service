@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 
 import * as d3 from 'd3'
 import { GraphNode, Link } from './types'
 
 const width = 600
-const height = 600
+const height = 350
 
 type Props = {
   nodes: GraphNode[]
@@ -27,9 +27,9 @@ export default function VisualGraph(props: Props) {
         d3
           .forceLink(links)
           .id((d: any) => d.id)
-          .distance(100)
+          .distance(150)
       )
-      .force('charge', d3.forceManyBody().strength(-600))
+      .force('charge', d3.forceManyBody().strength(-400))
       .force('x', d3.forceX())
       .force('y', d3.forceY())
 
@@ -41,7 +41,7 @@ export default function VisualGraph(props: Props) {
       .join('marker')
       .attr('id', (d) => `arrow-${d.index}`)
       .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 17)
+      .attr('refX', 18)
       .attr('refY', -0.5)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
@@ -148,7 +148,6 @@ export default function VisualGraph(props: Props) {
   return (
     <svg
       viewBox={`${-width / 2} ${-height / 2} ${width} ${height}`}
-      style={{ font: '12px sans-serif' }}
       xmlns="http://www.w3.org/2000/svg"
     ></svg>
   )
