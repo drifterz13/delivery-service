@@ -1,52 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import * as d3 from 'd3'
-
-type GraphNode = {
-  /**
-   * node name.
-   */
-  id: string
-}
-
-type Link = {
-  /**
-   * source node id.
-   */
-  source: string
-  /**
-   * target node id.
-   */
-  target: string
-  /**
-   * weight of the graph edge.
-   */
-  value: number
-}
-
-const data: { nodes: GraphNode[]; links: Link[] } = {
-  nodes: ['A', 'B', 'C', 'D', 'E', 'F'].map((node) => ({ id: node })),
-  links: [
-    { source: 'A', target: 'B', value: 1 },
-    { source: 'A', target: 'C', value: 4 },
-    { source: 'A', target: 'D', value: 10 },
-    { source: 'B', target: 'E', value: 3 },
-    { source: 'B', target: 'C', value: 4 },
-    { source: 'C', target: 'F', value: 2 },
-    { source: 'D', target: 'E', value: 1 },
-    { source: 'E', target: 'B', value: 3 },
-    { source: 'E', target: 'A', value: 2 },
-    { source: 'F', target: 'D', value: 1 },
-  ],
-}
-
-const { links, nodes } = data as { links: any[]; nodes: any[] }
+import { GraphNode, Link } from './types'
 
 const width = 600
 const height = 600
 
-export default function VisualGraph() {
+type Props = {
+  nodes: GraphNode[]
+  links: Link[]
+}
+
+export default function VisualGraph(props: Props) {
+  const { links, nodes } = props as { links: any[]; nodes: any[] }
+
   useEffect(() => {
+    const svg = d3.select('svg')
+
+    svg.selectAll('svg > *').remove()
+
     // Create force simulation and initialize relation between link and node.
     const simulation = d3
       .forceSimulation(nodes)
@@ -61,18 +33,13 @@ export default function VisualGraph() {
       .force('x', d3.forceX())
       .force('y', d3.forceY())
 
-    const svg = d3.select('svg')
-
     // An arrow for pointing at node.
     svg
       .append('defs')
       .selectAll('marker')
       .data(links)
       .join('marker')
-      .attr('id', (d) => {
-        console.log('d', d)
-        return `arrow-${d.index}`
-      })
+      .attr('id', (d) => `arrow-${d.index}`)
       .attr('viewBox', '0 -5 10 10')
       .attr('refX', 17)
       .attr('refY', -0.5)
@@ -96,8 +63,7 @@ export default function VisualGraph() {
       .attr('marker-end', (d) => `url(#arrow-${d.index})`) // Combine each link line with the arrow pointer.
 
     // A text represent weight of respective link.
-    const linkWeight = d3
-      .select('#links')
+    d3.select('#links')
       .selectAll('text')
       .data(links)
       .join('text')
@@ -138,7 +104,6 @@ export default function VisualGraph() {
       .attr('stroke', 'white')
       .attr('stroke-width', 3)
 
-    // Interval `1s`
     simulation.on('tick', () => {
       // Update link's positin.
       link.attr('d', (d) => {
@@ -178,7 +143,7 @@ export default function VisualGraph() {
         .on('drag', dragged)
         .on('end', dragended)
     }
-  }, [])
+  }, [props.links, props.nodes])
 
   return (
     <svg
