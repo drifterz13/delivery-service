@@ -10,7 +10,8 @@ import { data } from './data'
 import CollapsibleSection from './CollapsibleSection.react'
 import GraphInfo from './GraphInfo.react'
 
-const DEVELOPMENT = 0
+// Use `1` if you want to use sample data otherwise use `0` so you can create graph by yourself.
+const DEVELOPMENT = 1
 
 export default function App() {
   const [nodes, setNodes] = useState<GraphNode[]>([])
@@ -53,9 +54,11 @@ export default function App() {
   return (
     <div>
       <div>
-        <CollapsibleSection title="Build graph">
-          <GraphCreator createGraph={createGraph} />
-        </CollapsibleSection>
+        {DEVELOPMENT === 1 ? null : (
+          <CollapsibleSection title="Build graph">
+            <GraphCreator createGraph={createGraph} />
+          </CollapsibleSection>
+        )}
         <CollapsibleSection
           title={`Information nodes (${sourceNode}-${targetNode})`}
         >

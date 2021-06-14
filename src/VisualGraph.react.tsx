@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import * as d3 from 'd3'
 import { GraphNode, Link } from './types'
 
-const width = 600
-const height = 350
+const width = 800
+const height = 250
 
 type Props = {
   nodes: GraphNode[]

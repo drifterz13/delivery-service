@@ -153,6 +153,5 @@ function calcNonDuplicatedRoutes(
     )
   }
 
-  console.log('visited paths', visitedPaths)
   return visitedPaths.size
 }
