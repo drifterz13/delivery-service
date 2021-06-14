@@ -17,8 +17,8 @@ export default function GraphInfo(props: Props) {
   const [routeCost, setRouteCost] = useState<number | undefined>()
   const [totalLimitedDeliveryRoutes, setTotalLimitedDeliveryRoutes] =
     useState<number | undefined>()
-  const [totalNonZeroRoutes, setTotalNonZeroRoutes] =
-    useState<number | undefined>()
+  //   const [totalNonZeroRoutes, setTotalNonZeroRoutes] =
+  //     useState<number | undefined>()
 
   return (
     <div className="graph-info">
@@ -27,7 +27,7 @@ export default function GraphInfo(props: Props) {
       <div className="graph-info__content">
         <div>Costs: {routeCost}</div>
         <div>Possible routes (limit stop 4): {totalLimitedDeliveryRoutes}</div>
-        <div>Possible routes (non-zero): {totalNonZeroRoutes}</div>
+        {/* <div>Possible routes (non-zero): {totalNonZeroRoutes}</div> */}
       </div>
 
       <button
@@ -53,13 +53,13 @@ export default function GraphInfo(props: Props) {
             console.error(error)
           }
 
-          try {
-            setTotalNonZeroRoutes(
-              getTotalNonDuplicatedRoutes(props.links, routes)
-            )
-          } catch (error) {
-            console.error(error)
-          }
+          //   try {
+          //     setTotalNonZeroRoutes(
+          //       getTotalNonDuplicatedRoutes(props.links, routes)
+          //     )
+          //   } catch (error) {
+          //     console.error(error)
+          //   }
         }}
       >
         Get info
@@ -69,7 +69,7 @@ export default function GraphInfo(props: Props) {
         onClick={() => {
           setRouteCost(undefined)
           setTotalLimitedDeliveryRoutes(undefined)
-          setTotalNonZeroRoutes(undefined)
+        //   setTotalNonZeroRoutes(undefined)
 
           props.clearSelectedNode()
         }}

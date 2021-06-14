@@ -1,6 +1,6 @@
 import './App.css'
 
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import GraphCreator from './GraphCreator.react'
 
 import type { GraphNode, Link } from './types'
@@ -54,7 +54,7 @@ export default function App() {
   return (
     <div>
       <div>
-        {DEVELOPMENT === 1 ? null : (
+        {DEVELOPMENT ? null : (
           <CollapsibleSection title="Build graph">
             <GraphCreator createGraph={createGraph} />
           </CollapsibleSection>
@@ -72,11 +72,11 @@ export default function App() {
       </div>
 
       <VisualGraph
-        nodes={(DEVELOPMENT ? data.nodes : nodes).map((nodeData) =>
-          Object.create(nodeData)
+        nodes={(DEVELOPMENT ? data.nodes : nodes).map(
+          (nodeData) => Object.create(nodeData) // Prevent d3 to mutate the data directly.
         )}
-        links={(DEVELOPMENT ? data.links : links).map((linkData) =>
-          Object.create(linkData)
+        links={(DEVELOPMENT ? data.links : links).map(
+          (linkData) => Object.create(linkData) // Prevent d3 to mutate the data directly.
         )}
         selectNode={selectNode}
       />
