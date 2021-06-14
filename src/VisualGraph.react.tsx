@@ -9,6 +9,7 @@ const height = 350
 type Props = {
   nodes: GraphNode[]
   links: Link[]
+  selectNode: (node: string) => void
 }
 
 export default function VisualGraph(props: Props) {
@@ -91,6 +92,15 @@ export default function VisualGraph(props: Props) {
       .attr('stroke-width', 1.5)
       .attr('fill', 'tomato')
       .attr('r', 8)
+      .style('cursor', 'pointer')
+
+    d3.selectAll('circle').on('click', function () {
+      const selectedNode = d3.select(this)
+      selectedNode.attr('fill', 'skyblue')
+
+      const [selectedNodeData] = selectedNode.data()
+      props.selectNode((selectedNodeData as any).id)
+    })
 
     // A text represent node name for the respective node.
     node
@@ -143,7 +153,7 @@ export default function VisualGraph(props: Props) {
         .on('drag', dragged)
         .on('end', dragended)
     }
-  }, [props.links, props.nodes])
+  }, [props.links, props.nodes, props.selectNode])
 
   return (
     <svg
