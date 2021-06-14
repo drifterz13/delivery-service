@@ -134,48 +134,32 @@ function calcNonDuplicatedRoutes(
     return 0
   }
 
-  console.log(`-------${fromNode} -> ${toNode}-------`, visitedPaths, path)
-  console.log('DESTINATIONS', destinations)
-
   for (const destination of destinations) {
     if (destination.value === 0) {
       continue
     }
 
-    path += destination.target
-
     if (visitedPaths.has(path)) {
-      console.log('-------DUPLICATED PATH-------')
       continue
     }
 
     if (destination.target === toNode) {
-      console.log(
-        '-------FOUND PATH-------',
-        fromNode,
-        destination.target,
-        path
-      )
-      visitedPaths.add(path)
-      path = fromNode
+      const pathToAdd = path + destination.target
+
+      visitedPaths.add(pathToAdd)
+
       continue
     }
-
-    console.log(
-      '-------WILL KEEP FINDING-------',
-      fromNode,
-      destination.target,
-      path
-    )
 
     calcNonDuplicatedRoutes(
       graph,
       destination.target,
       toNode,
-      path,
+      path + destination.target,
       visitedPaths
     )
   }
 
+  console.log('Visited paths', visitedPaths)
   return visitedPaths.size
 }
