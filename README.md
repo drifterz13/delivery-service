@@ -26,6 +26,8 @@ I've designed the application to use in two modes.
 
 The application also have another element on the screen which is `👉 Information nodes (x - x)` that you can expand it. Once you've expanded it, you would see `Get info` button that you can click to get the information of two nodes that you're interested. However, you need to select two nodes on the graph first. After you click `Get info` it will execute the function that use for fulfill unit tests.
 
+_please note that you can drag the visual graph if you can't see details clearly._
+
 ## Testing
 
 There's only one test file which is `utils.test.ts` which is mean to solve all the given quesion **EXCEPT** the bonus one.
