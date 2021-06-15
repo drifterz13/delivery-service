@@ -28,6 +28,10 @@ export function getCostFromRoutes(links: Link[], routes: string): number {
 function getCost(graph: GraphData, routes: string[]) {
   let cost = 0
 
+  if (routes.length < 2) {
+    return
+  }
+
   while (routes.length > 0) {
     let routeMatched = false
     const currentRoute = routes.shift()
@@ -39,7 +43,7 @@ function getCost(graph: GraphData, routes: string[]) {
     }
 
     for (const destination of destiantions) {
-      if (destination.target === nextRoute) {
+      if (destination.target === nextRoute && destination.value > 0) {
         routeMatched = true
         cost += destination.value
 
@@ -71,6 +75,10 @@ export function getTotalPossibleRoutes(
   const graph = getGraphFromLinks(links)
   const [fromNode, toNode] = routes.split('-') as [string, string]
 
+  if (!fromNode || !toNode) {
+    return
+  }
+
   return calcRoutes(graph, fromNode, toNode, limitStop)
 }
 
@@ -93,7 +101,7 @@ function calcRoutes(
   }
 
   for (const destination of destinations) {
-    if (destination.target === toNode) {
+    if (destination.target === toNode && destination.value > 0) {
       sum += 1
       continue
     }
