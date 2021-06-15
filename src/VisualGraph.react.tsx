@@ -4,7 +4,7 @@ import * as d3 from 'd3'
 import { GraphNode, Link } from './types'
 
 const width = 800
-const height = 250
+const height = 350
 
 type Props = {
   nodes: GraphNode[]

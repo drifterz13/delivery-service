@@ -30,3 +30,23 @@ body {
 .graph-info__get-info-button {
   margin-right: 5px;
 }
+
+section .collapsible-section {
+  background: #f3f4f5;
+}
+
+button {
+  background: rgb(51, 145, 223);
+  border: none;
+  border-radius: 2px;
+  color: white;
+  padding: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+input {
+  box-sizing: border-box;
+  height: 28px;
+}
