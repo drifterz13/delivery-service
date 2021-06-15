@@ -53,7 +53,7 @@ export default function App() {
 
   return (
     <div>
-      <div>
+      <section>
         {DEVELOPMENT ? null : (
           <CollapsibleSection title="Build graph">
             <GraphCreator createGraph={createGraph} />
@@ -69,7 +69,7 @@ export default function App() {
             clearSelectedNode={clearSelectedNode}
           />
         </CollapsibleSection>
-      </div>
+      </section>
 
       <VisualGraph
         nodes={(DEVELOPMENT ? data.nodes : nodes).map(
