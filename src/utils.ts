@@ -87,7 +87,9 @@ function calcRoutes(
   fromNode: string,
   toNode: string,
   limitStop: number = 4,
-  totalStop: number = 0
+  totalStop: number = 0,
+  path: string = fromNode,
+  savedPaths: Set<string> = new Set()
 ) {
   let sum = 0
   const destinations = graph.get(fromNode)
@@ -102,6 +104,7 @@ function calcRoutes(
 
   for (const destination of destinations) {
     if (destination.target === toNode && destination.value > 0) {
+      savedPaths.add(path + destination.target)
       sum += 1
       continue
     }
@@ -111,10 +114,13 @@ function calcRoutes(
       destination.target,
       toNode,
       limitStop,
-      totalStop + 1
+      totalStop + 1,
+      path + destination.target,
+      savedPaths
     )
   }
 
+  console.log('DELIVERY ROUTES', [...savedPaths])
   return sum
 }
 
